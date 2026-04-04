@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatView</title>
+    <meta name="description" content="View your WhatsApp and Telegram chat exports privately in your browser." />
+
+    <!-- Security: prevent MIME sniffing -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <!-- Security: block framing (clickjacking) -->
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+
+    <!-- Security: disable referrer leakage -->
+    <meta name="referrer" content="no-referrer" />
+
+    <!--
+      Content Security Policy
+      - default-src 'self'          only allow resources from same origin
+      - script-src 'self'           no inline scripts (Vite injects module scripts)
+      - style-src 'self' 'unsafe-inline'  Tailwind requires inline styles at runtime
+      - img-src 'self' blob: data:  chat images come from blob URLs
+      - media-src 'self' blob:      chat audio/video come from blob URLs
+      - font-src 'self' https://fonts.gstatic.com  Google Fonts glyphs
+      - connect-src 'self' https://fonts.googleapis.com  Google Fonts CSS fetch
+      - object-src 'none'           block plugins (Flash, etc.)
+      - base-uri 'self'             prevent base tag injection
+      - form-action 'none'          no form submissions
+    -->
+    <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        img-src 'self' blob: data:;
+        media-src 'self' blob:;
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'none';
+      "
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

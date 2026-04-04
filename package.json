@@ -1,0 +1,30 @@
+{
+  "name": "chat-viewer-app",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.2",
+    "@vitejs/plugin-react-swc": "4.3.0",
+    "autoprefixer": "10.4.27",
+    "postcss": "8.5.8",
+    "tailwindcss": "4.2.2",
+    "typescript": "5.9.3",
+    "vite": "8.0.1"
+  },
+  "dependencies": {
+    "@paper-design/shaders-react": "0.0.72",
+    "@tanstack/react-virtual": "3.13.23",
+    "clsx": "2.1.1",
+    "jszip": "3.10.1",
+    "lucide-react": "1.7.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwind-merge": "3.5.0"
+  }
+}
