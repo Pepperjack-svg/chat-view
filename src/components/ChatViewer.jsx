@@ -44,7 +44,6 @@ function renderText(text) {
     last = match.index + url.length;
   }
   if (last < text.length) segments.push(text.slice(last));
-  // If no URLs found, return plain string (avoids array wrapper)
   return segments.length === 0 ? text : segments;
 }
 

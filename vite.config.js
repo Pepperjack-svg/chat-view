@@ -12,18 +12,18 @@ export default defineConfig({
   build: {
     target: 'es2020',
     sourcemap: false,
-    minify: 'esbuild',
+    minify: true,
     cssMinify: true,
     chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         // Split vendor chunks for better caching
-        manualChunks: {
-          react:    ['react', 'react-dom'],
-          virtual:  ['@tanstack/react-virtual'],
-          shaders:  ['@paper-design/shaders-react'],
-          zip:      ['jszip'],
-          icons:    ['lucide-react'],
+        manualChunks: (id) => {
+          if (id.includes('react-dom') || id.includes('/react/')) return 'react';
+          if (id.includes('@tanstack/react-virtual')) return 'virtual';
+          if (id.includes('@paper-design/shaders-react')) return 'shaders';
+          if (id.includes('jszip')) return 'zip';
+          if (id.includes('lucide-react')) return 'icons';
         },
         // Fingerprinted asset names
         assetFileNames: 'assets/[name].[hash][extname]',
