@@ -7,7 +7,9 @@ const Dithering = lazy(() =>
 )
 
 interface HeroUploadProps {
-  onParsed: (result: { messages: unknown[]; mediaMap: Record<string, unknown> }, fileName: string) => void
+  // Either a fully parsed { messages, mediaMap } result, or — for Instagram
+  // exports bundling multiple conversations — { needsThreadSelection: true, threads, zip, mediaMap }.
+  onParsed: (result: Record<string, unknown>, fileName: string) => void
 }
 
 export function HeroUpload({ onParsed }: HeroUploadProps) {
@@ -24,7 +26,7 @@ export function HeroUpload({ onParsed }: HeroUploadProps) {
     if (!file) return
     // Validate by extension and MIME type (MIME can be empty on some OS)
     if (!ALLOWED_EXTS.test(file.name) || (file.type && !ALLOWED_TYPES.has(file.type))) {
-      setError('Unsupported file type. Upload a WhatsApp .zip/.txt or Telegram .zip/.json export.')
+      setError('Unsupported file type. Upload a WhatsApp .zip/.txt, Telegram .zip/.json, or Instagram .zip export.')
       return
     }
     setError(null)
@@ -134,7 +136,7 @@ export function HeroUpload({ onParsed }: HeroUploadProps) {
                   {dragging ? 'Drop to load your chat' : 'Click or drag & drop'}
                 </p>
                 <p className="text-[#4a5568] text-xs sm:text-sm">
-                  WhatsApp &amp; Telegram exports
+                  WhatsApp, Telegram &amp; Instagram exports
                 </p>
               </div>
             </div>

@@ -55,3 +55,6 @@ coverage/
 *.local
 .cache/
 .parcel-cache/
+
+# ── Personal chat export samples (never commit real chat data) ────
+*.zip

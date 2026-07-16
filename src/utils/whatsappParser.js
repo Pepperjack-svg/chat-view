@@ -203,10 +203,22 @@ export async function parseFile(file) {
     return { messages, mediaMap, source: 'telegram' };
   }
 
-  // ── ZIP — detect WhatsApp vs Telegram ─────────────────────────
+  // ── ZIP — detect WhatsApp vs Telegram vs Instagram ────────────
   if (name.endsWith('.zip')) {
     const zip = await JSZip.loadAsync(file);
     await extractMedia(zip);
+
+    // Instagram ZIP contains your_instagram_activity/messages/inbox/<thread>/message_N.html
+    const { isInstagramZip, listInstagramThreads, parseInstagramThread } = await import('./instagramParser.js');
+    if (isInstagramZip(zip)) {
+      const threads = await listInstagramThreads(zip);
+      if (threads.length === 0) throw new Error('No Instagram conversations found in this export.');
+      if (threads.length === 1) {
+        const messages = await parseInstagramThread(zip, threads[0].id, mediaMap);
+        return { messages, mediaMap, source: 'instagram', fileNameOverride: threads[0].title };
+      }
+      return { needsThreadSelection: true, source: 'instagram', threads, zip, mediaMap };
+    }
 
     // Telegram ZIP contains result.json
     const tgJson = Object.values(zip.files).find((f) => !f.dir && /result\.json$/i.test(f.name));
@@ -238,5 +250,5 @@ export async function parseFile(file) {
     return { messages, mediaMap, source: 'whatsapp' };
   }
 
-  throw new Error('Unsupported file. Upload a WhatsApp .zip/.txt or Telegram .zip/.json export.');
+  throw new Error('Unsupported file. Upload a WhatsApp .zip/.txt, Telegram .zip/.json, or Instagram .zip export.');
 }

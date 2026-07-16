@@ -235,7 +235,7 @@ export default function ChatViewer({ messages, mediaMap, fileName, onReset }) {
           <ArrowLeft size={20} strokeWidth={2} />
         </button>
         <div className="chat-header-info">
-          <div className="chat-header-avatar">{fileName.charAt(0).toUpperCase()}</div>
+          <div className="chat-header-avatar">{Array.from(fileName)[0]?.toUpperCase()}</div>
           <div>
             <p className="chat-header-name">{fileName.replace(/\.(zip|txt|json)$/i, '')}</p>
             <p className="chat-header-meta">
